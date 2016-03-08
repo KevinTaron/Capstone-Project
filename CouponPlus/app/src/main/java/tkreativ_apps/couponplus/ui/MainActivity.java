@@ -1,4 +1,4 @@
-package tkreativ_apps.couponplus;
+package tkreativ_apps.couponplus.ui;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import tkreativ_apps.couponplus.R;
 
 public class MainActivity extends AppCompatActivity {
 
