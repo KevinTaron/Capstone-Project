@@ -1,4 +1,4 @@
-package tkreativ_apps.couponplus;
+package com.tkreativApps.couponplus;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

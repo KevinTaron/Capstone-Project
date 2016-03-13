@@ -1,4 +1,4 @@
-package tkreativ_apps.couponplus.login;
+package com.tkreativApps.couponplus.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,11 +7,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ServerValue;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -23,16 +27,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Scope;
+import com.tkreativApps.couponplus.R;
+import com.tkreativApps.couponplus.model.User;
+import com.tkreativApps.couponplus.ui.BaseActivity;
+import com.tkreativApps.couponplus.ui.MainActivity;
+import com.tkreativApps.couponplus.utils.Constants;
+import com.tkreativApps.couponplus.utils.Utils;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tkreativ_apps.couponplus.R;
-import tkreativ_apps.couponplus.ui.BaseActivity;
-import tkreativ_apps.couponplus.ui.MainActivity;
-import tkreativ_apps.couponplus.utils.Constants;
 
 /**
  * A login screen that offers login via email/password.
@@ -52,6 +59,10 @@ public class LoginActivity extends BaseActivity {
     public static final int RC_GOOGLE_LOGIN = 1;
     /* A Google account object that is populated if the user signs in with Google */
     GoogleSignInAccount mGoogleAccount;
+    /* References to the Firebase */
+    private Firebase mFirebaseRef;
+    /* Listener for Firebase session changes */
+    private Firebase.AuthStateListener mAuthStateListener;
 
     private SharedPreferences mSharedPref;
     private SharedPreferences.Editor mSharedPrefEditor;
@@ -84,6 +95,26 @@ public class LoginActivity extends BaseActivity {
         mAuthProgressDialog.setMessage(getString(R.string.progress_dialog_authenticating_with_firebase));
         mAuthProgressDialog.setCancelable(false);
         setupGoogleSignIn();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mAuthStateListener = new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                if (authData != null) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+
+        mFirebaseRef.addAuthStateListener(mAuthStateListener);
+
     }
 
     private void setupGoogleSignIn() {
@@ -139,7 +170,38 @@ public class LoginActivity extends BaseActivity {
         }
 
         private void setAuthenticatedUserGoogle(AuthData authData) {
-            Log.d(LOG_TAG, "Auth");
+
+            String unproccessedEmail;
+            if(mGoogleApiClient.isConnected()) {
+                unproccessedEmail = mGoogleAccount.getEmail().toLowerCase();
+                mSharedPrefEditor.putString(Constants.KEY_GOOGLE_EMAIL, unproccessedEmail).apply();
+            } else {
+                unproccessedEmail = mSharedPref.getString(Constants.KEY_GOOGLE_EMAIL, null);
+            }
+
+            mEncodedEmail = Utils.encodeEmail(unproccessedEmail);
+
+            /* Get username from authData */
+            final String userName = (String) authData.getProviderData().get(Constants.PROVIDER_DATA_DISPLAY_NAME);
+
+            final Firebase userLocation = new Firebase(Constants.FIREBASE_URL_USERS).child(authData.getUid());
+            userLocation.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() == null) {
+                        HashMap<String, Object> timestampJoined = new HashMap<>();
+                        timestampJoined.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+
+                        User newUser = new User(userName, mEncodedEmail, timestampJoined);
+                        userLocation.setValue(newUser);
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    Log.d(LOG_TAG, getString(R.string.log_error_occurred) + firebaseError.getMessage());
+                }
+            });
         }
 
         @Override
@@ -161,6 +223,14 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Cleans up listeners tied to the user's authentication state
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFirebaseRef.removeAuthStateListener(mAuthStateListener);
+    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -175,6 +245,16 @@ public class LoginActivity extends BaseActivity {
      */
     private void loginWithGoogle(String token) {
         mFirebaseRef.authWithOAuthToken(Constants.GOOGLE_PROVIDER, token, new MyAuthResultHandler(Constants.GOOGLE_PROVIDER));
+    }
+
+    /**
+     * Override onCreateOptionsMenu to inflate nothing
+     *
+     * @param menu The menu with which nothing will happen
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 
     /**
@@ -193,6 +273,7 @@ public class LoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_GOOGLE_LOGIN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.d(LOG_TAG, result.getStatus().toString());
             handleSignInResult(result);
         }
     }

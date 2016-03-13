@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "couponplus-1337",
+    "project_number": "923834084357",
+    "name": "couponplus"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923834084357:android:8d8266b7ce648a73",
+        "client_id": "android:com.tkreativApps.couponplus",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.tkreativApps.couponplus",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923834084357-ifouidskpp85cigd53sika7s3tdq40br.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tkreativApps.couponplus",
+            "certificate_hash": "6B4CFA4773A0C1F5788735D966D94FDE930E8A62"
+          }
+        },
+        {
+          "client_id": "923834084357-n56i5u95a3hjsj84lvnr8ilatg916f74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

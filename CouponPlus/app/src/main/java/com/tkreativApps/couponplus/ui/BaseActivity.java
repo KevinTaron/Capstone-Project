@@ -1,4 +1,4 @@
-package tkreativ_apps.couponplus.ui;
+package com.tkreativApps.couponplus.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public abstract class BaseActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener {
+
+        protected String mProvider, mEncodedEmail;
 
          /* Client used to interact with Google APIs. */
         protected GoogleApiClient mGoogleApiClient;
