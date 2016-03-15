@@ -10,6 +10,9 @@ public final class Constants {
      * where user lists are stored (ie "userLists")
      */
     public static final String FIREBASE_LOCATION_USERS = "users";
+    public static final String FIREBASE_LOCATION_COUPONS = "coupons";
+    public static final String FIREBASE_LOCATION_COUPONS_PUBLIC = "coupon-public";
+    public static final String FIREBASE_LOCATION_COUPONS_PRIVATE = "coupon-private";
 
 
     /**
@@ -31,6 +34,7 @@ public final class Constants {
      */
     public static final String FIREBASE_URL = "https://couponplus.firebaseio.com/";
     public static final String FIREBASE_URL_USERS = FIREBASE_URL + "/" + FIREBASE_LOCATION_USERS;
+    public static final String FIREBASE_URL_COUPONS = FIREBASE_URL + "/" + FIREBASE_LOCATION_COUPONS;
 
 
     /**

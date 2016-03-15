@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">CouponPlus</string>
+    <string name="app_name">Coupon+</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Coupon+</string>
 
 
     <!-- Login and Create Account Screen  -->
@@ -22,6 +22,14 @@
         completions."
     </string>
 
+
+    <!-- Coupon Edit Screen -->
+    <string name="placeholder_company">Company</string>
+    <string name="placeholder_amount">Amount</string>
+    <string name="placeholder_code">Code</string>
+    <string name="text_public">Public</string>
+    <string name="text_reminder">Remind me</string>
+    <string name="text_edited">Last edit: </string>
 
     <!-- Base Error Strings-->
     <string name="log_error_updating_data">Error updating data: </string>
