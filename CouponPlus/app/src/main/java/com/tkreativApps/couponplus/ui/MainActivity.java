@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.tkreativApps.couponplus.R;
 import com.tkreativApps.couponplus.ui.Coupons.CouponActivity;
+import com.tkreativApps.couponplus.ui.Fragments.PrivateCouponsFragment;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity  {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         final SharedPreferences mSharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
 
+
         String test = mSharedPref.getString("uid", "");
+        Log.d("test", "mytest");
 
         Log.i("testID", test);
 
@@ -80,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(addCoupon);
     }
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,6 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
+
+            Fragment fragment = null;
+
+            switch (position) {
+                case 0:
+                    Log.d("test", "my position: " + position);
+                    fragment = PrivateCouponsFragment.newInstance("test", "test2");
+                    return fragment;
+            }
+
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
@@ -165,13 +182,14 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return getString(R.string.section_title_coupons_private);
                 case 1:
-                    return "SECTION 2";
+                    return getString(R.string.section_title_coupons_public);
                 case 2:
-                    return "SECTION 3";
+                    return getString(R.string.section_title_coupons_map);
             }
             return null;
         }
     }
+
 }

@@ -174,6 +174,8 @@ public class LoginActivity extends BaseActivity {
             String unproccessedEmail;
             if(mGoogleApiClient.isConnected()) {
                 unproccessedEmail = mGoogleAccount.getEmail().toLowerCase();
+                String gID = "google-" + mGoogleAccount.getId();
+                mSharedPrefEditor.putString("uid", gID).apply();
                 mSharedPrefEditor.putString(Constants.KEY_GOOGLE_EMAIL, unproccessedEmail).apply();
             } else {
                 unproccessedEmail = mSharedPref.getString(Constants.KEY_GOOGLE_EMAIL, null);
@@ -307,7 +309,6 @@ public class LoginActivity extends BaseActivity {
 
                 try {
                     String scope = String.format(getString(R.string.oauth2_format), new Scope(Scopes.PROFILE)) + " email";
-
                     token = GoogleAuthUtil.getToken(LoginActivity.this, mGoogleAccount.getEmail(), scope);
                 } catch (IOException transientEx) {
                     /* Network or server error */
