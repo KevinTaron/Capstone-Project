@@ -80,4 +80,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="editor_placeholder_text_name">HolidayCheck</string>
+    <string name="editor_placeholder_text_code">EA21-YMA4-9G35-KVJA</string>
+    <string name="editor_placeholder_text_date">April 2017</string>
+    <string name="editor_placeholder_text_info">Min. purchase $1200</string>
+    <string name="editor_placeholder_text_amount">$100</string>
+
 </resources>

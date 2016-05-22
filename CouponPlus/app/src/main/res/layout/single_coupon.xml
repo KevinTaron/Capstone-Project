@@ -1,12 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:clipToPadding="false"
                 android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:elevation="8dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/couponName"
-        />
+        android:outlineProvider="bounds"
+        android:layout_margin="15dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/singleviewtopround"
+            android:layout_margin="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/editor_placeholder_text_amount"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/couponAmount"
+                android:layout_gravity="right"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/editor_placeholder_text_name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/couponName"
+                android:layout_gravity="right"
+                android:textColor="@color/colorWhiteBlue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:background="@drawable/singleviewbottomround">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/couponDateRow"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageIconDate"
+                    android:src="@android:drawable/ic_menu_recent_history"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/editor_placeholder_text_date"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/couponDate"
+                    android:layout_gravity="left"
+                    android:textColor="@color/colorGray"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/couponInfoRow"
+                android:layout_marginBottom="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageIconInfo"
+                    android:src="@android:drawable/ic_menu_info_details"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/editor_placeholder_text_info"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/couponInfo"
+                    android:layout_gravity="left"
+                    android:textColor="@color/colorGray"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/couponCodeRow"
+                android:layout_marginBottom="5dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageIconCode"
+                    android:src="@drawable/code"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="@string/editor_placeholder_text_code"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/couponCode"
+                    android:layout_gravity="left"
+                    android:textColor="@color/colorGray"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
