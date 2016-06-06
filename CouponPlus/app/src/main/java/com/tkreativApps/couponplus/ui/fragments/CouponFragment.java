@@ -18,6 +18,7 @@ import com.tkreativApps.couponplus.R;
 import com.tkreativApps.couponplus.model.Coupons;
 import com.tkreativApps.couponplus.ui.coupons.CouponActivity;
 import com.tkreativApps.couponplus.ui.viewholder.CouponHolder;
+import com.tkreativApps.couponplus.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,7 +80,7 @@ public abstract class CouponFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), CouponActivity.class);
                         intent.putExtra(CouponActivity.EXTRA_COUPON_KEY, couponKey);
-                        startActivityForResult(intent, 10);
+                        startActivityForResult(intent, Constants.EDIT_COUPON);
                     }
                 });
 

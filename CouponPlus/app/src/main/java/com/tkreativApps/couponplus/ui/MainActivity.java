@@ -2,29 +2,31 @@ package com.tkreativApps.couponplus.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.tkreativApps.couponplus.R;
+import com.tkreativApps.couponplus.SignInActivity;
 import com.tkreativApps.couponplus.ui.coupons.CouponActivity;
 import com.tkreativApps.couponplus.ui.fragments.CouponPrivate;
 import com.tkreativApps.couponplus.ui.fragments.CouponPublic;
+import com.tkreativApps.couponplus.utils.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity  {
-
+    static final String TAG = "MainActivity";
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -44,16 +46,13 @@ public class MainActivity extends BaseActivity  {
             private final Fragment[] mFragments = new Fragment[] {
                     new CouponPrivate(),
                     new CouponPublic(),
-                    PlaceholderFragment.newInstance(3),
             };
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.section_title_coupons_private),
-                    getString(R.string.section_title_coupons_public),
-                    getString(R.string.section_title_coupons_map)
+                    getString(R.string.section_title_coupons_public)
             };
             @Override
             public Fragment getItem(int position) {
-                Log.d("test", "my pos:" + position);
                 return mFragments[position];
             }
             @Override
@@ -80,7 +79,7 @@ public class MainActivity extends BaseActivity  {
     @OnClick(R.id.fab)
     public void addCoupon(View view) {
         Intent addCoupon = new Intent(MainActivity.this, CouponActivity.class);
-        startActivity(addCoupon);
+        startActivityForResult(addCoupon, Constants.CREATE_COUPON);
     }
 
     @Override
@@ -99,46 +98,28 @@ public class MainActivity extends BaseActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+
             return true;
+        }
+        if (id == R.id.action_sign_out) {
+            AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+                public void onComplete(@NonNull Task<Void> task) {
+                    // user is now signed out
+                    Intent mainAct = new Intent(MainActivity.this, SignInActivity.class);
+                    mainAct.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(mainAct);
+                    finish();
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Constants.COUPON_CREATED) { showSnackbar(R.string.coupon_created_successful); }
+        if(resultCode == Constants.COUPON_DELETED) { showSnackbar(R.string.coupon_deleted_successful); }
     }
-
-
 }

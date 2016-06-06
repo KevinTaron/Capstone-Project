@@ -22,6 +22,9 @@
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="sign_out_successful">You are logged out.</string>
+    <string name="login_failed">Login failed. Please try again.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -34,6 +37,12 @@
     <string name="text_public">Public</string>
     <string name="text_reminder">Remind me</string>
     <string name="text_edited">Last edit: </string>
+
+    <string name="coupon_created_successful">Coupon created.</string>
+    <string name="coupon_delete_verify">Do you really want to delete this coupon?</string>
+    <string name="coupon_delete_verify_yes">Yes</string>
+    <string name="coupon_delete_verify_no">No</string>
+    <string name="coupon_deleted_successful">Coupon deleted.</string>
 
     <!-- Base Error Strings-->
     <string name="log_error_updating_data">Error updating data: </string>
@@ -77,27 +86,16 @@
     <string name="progress_dialog_creating_user_with_firebase">Attempting to create account…</string>
     <string name="progress_dialog_check_inbox">Please check your inbox for your password</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="editor_placeholder_text_name">HolidayCheck</string>
     <string name="editor_placeholder_text_code">EA21-YMA4-9G35-KVJA</string>
     <string name="editor_placeholder_text_date">April 2017</string>
     <string name="editor_placeholder_text_info">Min. purchase $1200</string>
     <string name="editor_placeholder_text_amount">$100</string>
 
+    <!-- Facebook ID -->
+    <string name="facebook_application_id" translatable="false">1898064270420510</string>
 
-    <string name="menu_login">Log in</string>
-    <string name="menu_logout">Log out</string>
-    <string name="login_label">Log In</string>
-    <string name="email_label">Email</string>
-    <string name="password_label">Password</string>
-    <string name="send_text">Send</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec condimentum ante, quis mattis mi. Proin ut rhoncus libero, ac euismod neque. Ut suscipit, enim a facilisis consequat, orci lacus venenatis orci, at ultricies orci nulla sed ex. In condimentum viverra velit, eget feugiat libero imperdiet vel. Aenean pretium, lectus vitae bibendum bibendum, diam turpis convallis eros, quis tristique leo sapien at ipsum. Praesent eu odio id nulla lobortis auctor. Donec eget dolor eget nisl euismod commodo vel a lacus. Quisque ut justo vitae urna pharetra accumsan. Etiam dignissim neque iaculis mauris viverra, blandit rhoncus odio porttitor. Phasellus nibh arcu.</string>
-    <string name="title_sign_in">Welcome</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="hint_password">password</string>
-    <string name="hint_email">email</string>
-    <string name="sign_in">Sign In</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

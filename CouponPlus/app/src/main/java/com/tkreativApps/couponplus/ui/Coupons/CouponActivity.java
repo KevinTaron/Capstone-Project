@@ -1,13 +1,14 @@
 package com.tkreativApps.couponplus.ui.coupons;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tkreativApps.couponplus.R;
 import com.tkreativApps.couponplus.model.Coupons;
+import com.tkreativApps.couponplus.ui.dialogs.DeleteDialog;
 import com.tkreativApps.couponplus.utils.Constants;
 
 import butterknife.BindView;
@@ -46,7 +48,7 @@ public class CouponActivity extends AppCompatActivity {
     boolean nCoupon = true;
     DatabaseReference couponRef;
     private String userId;
-    private String couponkey = null;
+    private String couponKey = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +63,8 @@ public class CouponActivity extends AppCompatActivity {
 
         if (extras != null) {
             nCoupon = false;
-            couponkey = extras.getString(EXTRA_COUPON_KEY);
-            loadData(couponkey);
+            couponKey = extras.getString(EXTRA_COUPON_KEY);
+            loadData(couponKey);
             mDelete.setVisibility(View.VISIBLE);
         }
     }
@@ -88,16 +90,15 @@ public class CouponActivity extends AppCompatActivity {
             newCopRef.setValue(newCoupons, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
-                    Toast testToast = Toast.makeText(getApplication(), "Coupon saved", Toast.LENGTH_LONG);
-                    testToast.show();
-
+                    Intent returnIntent = new Intent();
+                    setResult(Constants.COUPON_CREATED, returnIntent);
                     finish();
                 }
             });
         } else {
-            if(couponkey != null) {
-                Coupons updateCoupon = new Coupons(couponkey, companyName, amount, code, isPublic);
-                DatabaseReference updateRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(userId).child(couponkey);
+            if(couponKey != null) {
+                Coupons updateCoupon = new Coupons(couponKey, companyName, amount, code, isPublic);
+                DatabaseReference updateRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(userId).child(couponKey);
                 updateRef.setValue(updateCoupon);
                 finish();
             }
@@ -129,10 +130,23 @@ public class CouponActivity extends AppCompatActivity {
         return user.getUid();
     }
 
-    @OnClick(R.id.deleteButton)
     public void deleteCoupon() {
-        DatabaseReference updateRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(userId).child(couponkey);
-        updateRef.removeValue();
-        finish();
+        DatabaseReference updateRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(userId).child(couponKey);
+        updateRef.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Intent returnIntent = new Intent();
+                setResult(Constants.COUPON_DELETED, returnIntent);
+                finish();
+            }
+        });
+
+    }
+
+    @OnClick(R.id.deleteButton)
+    public void sureDelete() {
+        FragmentManager fm = getSupportFragmentManager();
+        DeleteDialog deleteDialog = DeleteDialog.newInstance(R.string.coupon_delete_verify);
+        deleteDialog.show(fm, "dialog");
     }
 }

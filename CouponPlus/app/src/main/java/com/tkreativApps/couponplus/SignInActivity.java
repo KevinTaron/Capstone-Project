@@ -2,16 +2,16 @@ package com.tkreativApps.couponplus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.tkreativApps.couponplus.ui.BaseActivity;
 import com.tkreativApps.couponplus.ui.MainActivity;
 
 import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends BaseActivity {
     private FirebaseAuth mAuth;
 
     @Override
@@ -27,8 +27,10 @@ public class SignInActivity extends AppCompatActivity {
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setProviders(
-                                    AuthUI.GOOGLE_PROVIDER
+                                    AuthUI.GOOGLE_PROVIDER,
+                                    AuthUI.FACEBOOK_PROVIDER
                             )
+                            .setTheme(R.style.AppTheme)
                             .build(),
                     RC_SIGN_IN);
         }
@@ -45,6 +47,8 @@ public class SignInActivity extends AppCompatActivity {
             } else {
                 // user is not signed in. Maybe just wait for the user to press
                 // "sign in" again, or show a message
+                hideProgressDialog();
+                showSnackbar(R.string.login_failed);
             }
         }
     }
