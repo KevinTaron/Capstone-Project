@@ -1,23 +1,21 @@
 {
   "project_info": {
-    "project_id": "couponplus-1337",
-    "project_number": "923834084357",
-    "name": "couponplus"
+    "project_number": "31312497573",
+    "firebase_url": "https://couponplus-33f37.firebaseio.com",
+    "project_id": "couponplus-33f37",
+    "storage_bucket": "couponplus-33f37.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:923834084357:android:8d8266b7ce648a73",
-        "client_id": "android:com.tkreativApps.couponplus",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:31312497573:android:8d8266b7ce648a73",
         "android_client_info": {
-          "package_name": "com.tkreativApps.couponplus",
-          "certificate_hash": []
+          "package_name": "com.tkreativApps.couponplus"
         }
       },
       "oauth_client": [
         {
-          "client_id": "923834084357-ifouidskpp85cigd53sika7s3tdq40br.apps.googleusercontent.com",
+          "client_id": "31312497573-93r85hhqdg3tms633vjlr4t380l7utov.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tkreativApps.couponplus",
@@ -25,32 +23,33 @@
           }
         },
         {
-          "client_id": "923834084357-n56i5u95a3hjsj84lvnr8ilatg916f74.apps.googleusercontent.com",
+          "client_id": "31312497573-09m72jv5fjcbsgorm02pujb9p5q2dalm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN0JwcfxlFk0HRQwhhEd-K1QwputNBuqg"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 2
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31312497573-09m72jv5fjcbsgorm02pujb9p5q2dalm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

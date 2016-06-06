@@ -32,7 +32,7 @@ public final class Constants {
     /**
      * Constants for Firebase URL
      */
-    public static final String FIREBASE_URL = "https://couponplus.firebaseio.com/";
+    public static final String FIREBASE_URL = "https://couponplus-33f37.firebaseio.com/";
     public static final String FIREBASE_URL_USERS = FIREBASE_URL + "/" + FIREBASE_LOCATION_USERS;
     public static final String FIREBASE_URL_COUPONS = FIREBASE_URL + "/" + FIREBASE_LOCATION_COUPONS;
 

@@ -1,10 +1,14 @@
 package com.tkreativApps.couponplus.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.HashMap;
 
 /**
  * Defines the data structure for User objects.
  */
+
+@IgnoreExtraProperties
 public class User {
     private String name;
     private String email;
@@ -24,10 +28,16 @@ public class User {
      * @param email
      * @param timestampJoined
      */
+
     public User(String name, String email, HashMap<String, Object> timestampJoined) {
         this.name = name;
         this.email = email;
         this.timestampJoined = timestampJoined;
+    }
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public String getName() {

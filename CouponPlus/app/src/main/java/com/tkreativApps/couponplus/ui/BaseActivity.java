@@ -1,40 +1,30 @@
 package com.tkreativApps.couponplus.ui;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.firebase.client.Firebase;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
-public abstract class BaseActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener {
+public abstract class BaseActivity extends AppCompatActivity {
+    private ProgressDialog mProgressDialog;
 
-        protected String mProvider, mEncodedEmail;
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setMessage("Loading...");
+        }
 
-         /* Client used to interact with Google APIs. */
-        protected GoogleApiClient mGoogleApiClient;
-        protected Firebase.AuthStateListener mAuthListener;
-        protected Firebase mFirebaseRef;
+        mProgressDialog.show();
+    }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /* Setup the Google API object to allow Google logins */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
 
-        /**
-         * Build a GoogleApiClient with access to the Google Sign-In API and the
-         * options specified by gso.
-         */
-        /* Setup the Google API object to allow Google+ logins */
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 }

@@ -1,6 +1,6 @@
 package com.tkreativApps.couponplus;
 
-import com.firebase.client.Firebase;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Coupon+ Application
@@ -12,9 +12,7 @@ public class CouponPlusApplication extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        /* Initialize Firebase */
-        Firebase.setAndroidContext(this);
         /* Enable disk persistence  */
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

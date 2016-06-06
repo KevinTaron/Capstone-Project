@@ -1,13 +1,10 @@
 package com.tkreativApps.couponplus.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.tkreativApps.couponplus.R;
-import com.tkreativApps.couponplus.ui.Coupons.CouponActivity;
-import com.tkreativApps.couponplus.ui.Fragments.PrivateCouponsFragment;
+import com.tkreativApps.couponplus.ui.coupons.CouponActivity;
+import com.tkreativApps.couponplus.ui.fragments.CouponPrivate;
+import com.tkreativApps.couponplus.ui.fragments.CouponPublic;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,19 +26,10 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity  {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private FragmentStatePagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +37,41 @@ public class MainActivity extends BaseActivity  {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        final SharedPreferences mSharedPref = PreferenceManager.getDefaultSharedPreferences(getApplication());
-
-
-        String test = mSharedPref.getString("uid", "");
-        Log.d("test", "mytest");
-
-        Log.i("testID", test);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        mPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            private final Fragment[] mFragments = new Fragment[] {
+                    new CouponPrivate(),
+                    new CouponPublic(),
+                    PlaceholderFragment.newInstance(3),
+            };
+            private final String[] mFragmentNames = new String[] {
+                    getString(R.string.section_title_coupons_private),
+                    getString(R.string.section_title_coupons_public),
+                    getString(R.string.section_title_coupons_map)
+            };
+            @Override
+            public Fragment getItem(int position) {
+                Log.d("test", "my pos:" + position);
+                return mFragments[position];
+            }
+            @Override
+            public int getCount() {
+                return mFragments.length;
+            }
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mFragmentNames[position];
+            }
+        };
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(mPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
-
     }
 
     /**
@@ -81,11 +81,6 @@ public class MainActivity extends BaseActivity  {
     public void addCoupon(View view) {
         Intent addCoupon = new Intent(MainActivity.this, CouponActivity.class);
         startActivity(addCoupon);
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
     }
 
     @Override
@@ -145,51 +140,5 @@ public class MainActivity extends BaseActivity  {
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            Fragment fragment = null;
-
-            switch (position) {
-                case 0:
-                    Log.d("test", "my position: " + position);
-                    fragment = PrivateCouponsFragment.newInstance("test", "test2");
-                    return fragment;
-            }
-
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.section_title_coupons_private);
-                case 1:
-                    return getString(R.string.section_title_coupons_public);
-                case 2:
-                    return getString(R.string.section_title_coupons_map);
-            }
-            return null;
-        }
-    }
 
 }
