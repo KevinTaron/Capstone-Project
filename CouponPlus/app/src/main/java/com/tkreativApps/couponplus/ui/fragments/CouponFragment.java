@@ -83,10 +83,9 @@ public abstract class CouponFragment extends Fragment {
                         startActivityForResult(intent, Constants.EDIT_COUPON);
                     }
                 });
-
-
-
             }
+
+
         };
 
         mManager = new LinearLayoutManager(getActivity());

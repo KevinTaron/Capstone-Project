@@ -54,4 +54,5 @@ public final class Constants {
     public static final int EDIT_COUPON = 301;
     public static final int COUPON_CREATED = 310;
     public static final int COUPON_DELETED = 311;
+    public static final int COUPON_UPDATED = 312;
 }

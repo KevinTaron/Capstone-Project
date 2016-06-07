@@ -54,6 +54,7 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void startMain() {
+        setUser();
         Intent mainAct = new Intent(SignInActivity.this, MainActivity.class);
         mainAct.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainAct);

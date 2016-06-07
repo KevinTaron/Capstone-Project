@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 @IgnoreExtraProperties
 public class User {
+    private String uid;
     private String name;
     private String email;
     private HashMap<String, Object> timestampJoined;
@@ -29,13 +30,15 @@ public class User {
      * @param timestampJoined
      */
 
-    public User(String name, String email, HashMap<String, Object> timestampJoined) {
+    public User(String uid, String name, String email, HashMap<String, Object> timestampJoined) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.timestampJoined = timestampJoined;
     }
 
-    public User(String name, String email) {
+    public User(String uid, String name, String email) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
     }
@@ -52,4 +55,23 @@ public class User {
         return timestampJoined;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTimestampJoined(HashMap<String, Object> timestampJoined) {
+        this.timestampJoined = timestampJoined;
+    }
 }
