@@ -59,7 +59,7 @@ public abstract class CouponFragment extends Fragment {
         super.onResume();
 
         // Set up FirebaseRecyclerAdapter with the Query
-        Query postsQuery = getQuery((mDatabase));
+        Query postsQuery = getQuery((mDatabase)).orderByChild("company").startAt("a");
         mAdapter = new FirebaseRecyclerAdapter<Coupons, CouponHolder>(Coupons.class, R.layout.single_coupon,
                 CouponHolder.class, postsQuery) {
             @Override
@@ -75,11 +75,13 @@ public abstract class CouponFragment extends Fragment {
 
                 // Set click listener for the whole post view
                 final String couponKey = postRef.getKey();
+                final boolean couponShared = model.isShared();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), CouponActivity.class);
                         intent.putExtra(CouponActivity.EXTRA_COUPON_KEY, couponKey);
+                        intent.putExtra(CouponActivity.EXTRA_COUPON_SHARED, couponShared);
                         startActivityForResult(intent, Constants.EDIT_COUPON);
                     }
                 });
