@@ -35,6 +35,8 @@ public class CouponHolder extends RecyclerView.ViewHolder {
         couponInfoRow = (LinearLayout) v.findViewById(R.id.couponInfoRow);
     }
 
+    
+
     public void setCouponName(String couponName) {
         TextView field = (TextView) itemView.findViewById(R.id.couponName);
         field.setText(couponName);

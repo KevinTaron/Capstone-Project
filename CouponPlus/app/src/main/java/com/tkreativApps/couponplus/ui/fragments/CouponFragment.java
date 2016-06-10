@@ -1,6 +1,5 @@
 package com.tkreativApps.couponplus.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.tkreativApps.couponplus.R;
+import com.tkreativApps.couponplus.adapter.CouponAdapter;
 import com.tkreativApps.couponplus.model.Coupons;
-import com.tkreativApps.couponplus.ui.coupons.CouponActivity;
 import com.tkreativApps.couponplus.ui.viewholder.CouponHolder;
-import com.tkreativApps.couponplus.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,37 +57,8 @@ public abstract class CouponFragment extends Fragment {
         super.onResume();
 
         // Set up FirebaseRecyclerAdapter with the Query
-        Query postsQuery = getQuery((mDatabase)).orderByChild("company").startAt("a");
-        mAdapter = new FirebaseRecyclerAdapter<Coupons, CouponHolder>(Coupons.class, R.layout.single_coupon,
-                CouponHolder.class, postsQuery) {
-            @Override
-            protected void populateViewHolder(final CouponHolder viewHolder, final Coupons model, final int position) {
-                final DatabaseReference postRef = getRef(position);
-
-                viewHolder.couponName.setText(model.getCompany());
-                viewHolder.couponAmount.setText(model.getAmount());
-
-                if(model.getCode() != "") viewHolder.couponCode.setText(model.getCode()); else viewHolder.couponCodeRow.setVisibility(View.GONE);
-                if(false) viewHolder.couponDate.setText(""); else viewHolder.couponDateRow.setVisibility(View.GONE);
-                if(false) viewHolder.couponInfo.setText(""); else viewHolder.couponInfoRow.setVisibility(View.GONE);
-
-                // Set click listener for the whole post view
-                final String couponKey = postRef.getKey();
-                final boolean couponShared = model.isShared();
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), CouponActivity.class);
-                        intent.putExtra(CouponActivity.EXTRA_COUPON_KEY, couponKey);
-                        intent.putExtra(CouponActivity.EXTRA_COUPON_SHARED, couponShared);
-                        startActivityForResult(intent, Constants.EDIT_COUPON);
-                    }
-                });
-            }
-
-
-        };
-
+        Query postsQuery = getQuery((mDatabase)).orderByChild("company");
+        mAdapter = new CouponAdapter(Coupons.class, R.layout.single_coupon, CouponHolder.class, postsQuery, getActivity());
         mManager = new LinearLayoutManager(getActivity());
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
