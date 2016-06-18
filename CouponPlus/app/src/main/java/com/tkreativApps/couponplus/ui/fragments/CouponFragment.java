@@ -16,6 +16,7 @@ import com.google.firebase.database.Query;
 import com.tkreativApps.couponplus.R;
 import com.tkreativApps.couponplus.adapter.CouponAdapter;
 import com.tkreativApps.couponplus.model.Coupons;
+import com.tkreativApps.couponplus.model.User;
 import com.tkreativApps.couponplus.ui.viewholder.CouponHolder;
 
 import butterknife.BindView;
@@ -26,6 +27,7 @@ public abstract class CouponFragment extends Fragment {
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<Coupons, CouponHolder> mAdapter;
     private LinearLayoutManager mManager;
+    private User mUser;
 
 
     @BindView(R.id.couponList)
@@ -55,13 +57,13 @@ public abstract class CouponFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery((mDatabase)).orderByChild("company");
         mAdapter = new CouponAdapter(Coupons.class, R.layout.single_coupon, CouponHolder.class, postsQuery, getActivity());
         mManager = new LinearLayoutManager(getActivity());
-        mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
+        mManager.setReverseLayout(true);
+        getSortBy();
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -77,5 +79,17 @@ public abstract class CouponFragment extends Fragment {
 
     public String getUid() { return FirebaseAuth.getInstance().getCurrentUser().getUid(); }
 
+    public void getSortBy() {
+
+//        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//        if(pref.getBoolean("ASC", false)) {
+//            Log.i("SORT", "DESC");
+//        } else {
+//            Log.i("SORT", "ASC");
+//        }
+    }
+
     public abstract Query getQuery(DatabaseReference databaseReference);
+
+
 }

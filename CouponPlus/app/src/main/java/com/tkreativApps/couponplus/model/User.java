@@ -13,6 +13,8 @@ public class User {
     private String uid;
     private String name;
     private String email;
+    private String orderBy = "latest";
+    private String sortBy = "ASC";
     private HashMap<String, Object> timestampJoined;
 
     /**
@@ -73,5 +75,21 @@ public class User {
 
     public void setTimestampJoined(HashMap<String, Object> timestampJoined) {
         this.timestampJoined = timestampJoined;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
     }
 }

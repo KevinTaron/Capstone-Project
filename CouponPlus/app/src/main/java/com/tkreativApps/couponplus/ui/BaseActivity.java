@@ -10,8 +10,11 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tkreativApps.couponplus.model.User;
 import com.tkreativApps.couponplus.utils.Constants;
 
@@ -20,6 +23,7 @@ import butterknife.BindView;
 public abstract class BaseActivity extends AppCompatActivity {
     @BindView(android.R.id.content)
     View mRootView;
+    User mUser;
 
     private ProgressDialog mProgressDialog;
 
@@ -51,17 +55,55 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void setUser() {
-        User mUser = getUser();
-        String mUserId = getUid();
-
-        DatabaseReference updateRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_USERS).child(mUserId);
-        updateRef.setValue(mUser);
+        UserMeta();
     }
+
     public User getUser() {
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        User mUser = new User(fUser.getUid(), fUser.getDisplayName(), fUser.getEmail());
+        if(mUser == null) {
+            UserMeta();
+        }
         return mUser;
     }
+
+
+    public void UserMeta() {
+        DatabaseReference userMeta = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_USERS).child(getUid());
+        userMeta.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User metaUser = dataSnapshot.getValue(User.class);
+                if(metaUser != null) {
+                    setMyUser(metaUser);
+                } else {
+                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                    metaUser = new User(fUser.getUid(), fUser.getDisplayName(), fUser.getEmail());
+                    DatabaseReference updateRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_USERS).child(fUser.getUid());
+                    updateRef.setValue(metaUser);
+                    setMyUser(metaUser);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setMyUser(User user) {
+        mUser = user;
+//        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor = pref.edit();
+//
+//        if(mUser.getSortBy().equals("ASC")) {
+//            editor.putBoolean("ASC", true);
+//        } else {
+//            editor.putBoolean("ASC", false);
+//        }
+//        editor.commit();
+    }
+
+
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
