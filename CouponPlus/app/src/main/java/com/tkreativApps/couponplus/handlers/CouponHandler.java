@@ -19,6 +19,7 @@ import com.tkreativApps.couponplus.utils.Constants;
 
 public class CouponHandler {
     BaseActivity mActivity;
+    String uid;
 
     public CouponHandler(BaseActivity mActivity) {
         this.mActivity = mActivity;
@@ -28,10 +29,18 @@ public class CouponHandler {
 
     public void saveCoupon(Coupons coupon, User user) {
         DatabaseReference couponRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL);
+
+        if(user == null) {
+            uid = mActivity.getUid();
+        } else {
+            uid = user.getUid();
+        }
+
+
         if(coupon.isShared()) {
             couponRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PUBLIC);
         } else {
-            couponRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(user.getUid());
+            couponRef = couponRef.child(Constants.FIREBASE_LOCATION_COUPONS_PRIVATE).child(uid);
         }
 
         if(coupon.getCid() == "" || coupon.getCid() == null) {

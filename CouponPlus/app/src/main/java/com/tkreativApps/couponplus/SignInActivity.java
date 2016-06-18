@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.tkreativApps.couponplus.ui.BaseActivity;
 import com.tkreativApps.couponplus.ui.MainActivity;
+import com.tkreativApps.couponplus.ui.coupons.CouponActivity;
+import com.tkreativApps.couponplus.utils.Constants;
 
 import static com.firebase.ui.auth.ui.AcquireEmailHelper.RC_SIGN_IN;
 
@@ -55,9 +57,19 @@ public class SignInActivity extends BaseActivity {
 
     private void startMain() {
         setUser();
-        Intent mainAct = new Intent(SignInActivity.this, MainActivity.class);
+        Intent mainAct = new Intent(SignInActivity.this, getStartActivity());
         mainAct.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainAct);
         this.finish();
+    }
+
+    private Class getStartActivity() {
+        if(getIntent().hasExtra(Constants.REQUEST_CODE)) {
+            int mRequestCode = getIntent().getIntExtra(Constants.REQUEST_CODE, 0);
+            if(mRequestCode == Constants.CREATE_COUPON) {
+                return CouponActivity.class;
+            }
+        }
+        return MainActivity.class;
     }
 }

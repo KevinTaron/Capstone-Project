@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public User getUser() {
         if(mUser == null) {
             UserMeta();
+            return mUser;
         }
         return mUser;
     }
@@ -92,15 +94,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void setMyUser(User user) {
         mUser = user;
-//        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-//        SharedPreferences.Editor editor = pref.edit();
-//
-//        if(mUser.getSortBy().equals("ASC")) {
-//            editor.putBoolean("ASC", true);
-//        } else {
-//            editor.putBoolean("ASC", false);
-//        }
-//        editor.commit();
     }
 
 

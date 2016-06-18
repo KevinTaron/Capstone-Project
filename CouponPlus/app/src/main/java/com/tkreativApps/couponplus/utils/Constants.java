@@ -49,6 +49,8 @@ public final class Constants {
     public static final String GOOGLE_PROVIDER = "google";
     public static final String PROVIDER_DATA_DISPLAY_NAME = "displayName";
 
+    public static final String REQUEST_CODE = "requestCode";
+
 
     public static final int CREATE_COUPON = 300;
     public static final int EDIT_COUPON = 301;

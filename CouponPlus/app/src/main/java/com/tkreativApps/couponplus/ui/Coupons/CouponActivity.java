@@ -27,7 +27,7 @@ public class CouponActivity extends BaseActivity {
     private String couponKey = null;
     private ActivityCouponBinding binding;
     private Coupons mCoupon = null;
-    private User mUser;
+    private User myUser;
     private String mUserId;
     private boolean isShared;
 
@@ -36,9 +36,9 @@ public class CouponActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_coupon);
-        mUser = getUser();
+        myUser = getUser();
         mUserId = getUid();
-        binding.setUser(mUser);
+        binding.setUser(myUser);
         binding.setHandler(new CouponHandler(this));
         binding.setActivity(this);
 
