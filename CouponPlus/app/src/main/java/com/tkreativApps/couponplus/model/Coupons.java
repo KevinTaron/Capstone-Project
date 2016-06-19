@@ -2,15 +2,32 @@ package com.tkreativApps.couponplus.model;
 
 import java.util.HashMap;
 
+import ckm.simple.sql_provider.annotation.SimpleSQLColumn;
+import ckm.simple.sql_provider.annotation.SimpleSQLTable;
+
+@SimpleSQLTable(table = "coupons", provider = "CouponProvider")
 public class Coupons {
+
+    @SimpleSQLColumn(value = "col_cid", primary = true)
     public String cid;
+
+    @SimpleSQLColumn("col_column")
     public String company;
+
+    @SimpleSQLColumn("col_amount")
     public String amount;
+
+    @SimpleSQLColumn("col_code")
     public String code;
+
+    @SimpleSQLColumn("col_shared")
     public boolean shared;
+
+    @SimpleSQLColumn("col_ownerid")
     public String ownerID;
 
     private HashMap<String, Object> timeStampCreated;
+
     private HashMap<String, Object> timeStampLastEdit;
 
     public Coupons() {

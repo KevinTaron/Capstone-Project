@@ -1,12 +1,13 @@
 package com.tkreativApps.couponplus.ui;
 
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,12 +17,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tkreativApps.couponplus.data.CouponLoader;
 import com.tkreativApps.couponplus.model.User;
 import com.tkreativApps.couponplus.utils.Constants;
 
 import butterknife.BindView;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
     @BindView(android.R.id.content)
     View mRootView;
     User mUser;
@@ -99,5 +101,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return new CouponLoader(this);
     }
 }
